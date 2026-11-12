@@ -120,15 +120,15 @@ const sky = document.getElementById('sky');
 if (sky) {
   const rand = (min, max) => Math.random() * (max - min) + min;
 
-  // Bintang berkelip — 70 titik tersebar di langit hero
-  for (let i = 0; i < 70; i++) {
+  // Bintang berkelip — 110 titik tersebar di seluruh langit
+  for (let i = 0; i < 110; i++) {
     const star = document.createElement('span');
     star.className = 'star';
     const size = rand(1, 2.6);
     star.style.width = `${size}px`;
     star.style.height = `${size}px`;
     star.style.left = `${rand(0, 100)}%`;
-    star.style.top = `${rand(0, 62)}%`;
+    star.style.top = `${rand(0, 92)}%`;
     star.style.setProperty('--o', rand(0.45, 0.95).toFixed(2));
     star.style.setProperty('--d', `${rand(2.2, 5.5).toFixed(2)}s`);
     star.style.setProperty('--delay', `${rand(0, 4).toFixed(2)}s`);
