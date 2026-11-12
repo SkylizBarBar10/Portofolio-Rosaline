@@ -14,6 +14,13 @@
 </head>
 <body>
 
+  <!-- Langit penuh halaman: bintang + bulan + pita aurora (fixed, di belakang konten) -->
+  <div class="sky" id="sky" aria-hidden="true">
+    <div class="ribbon ribbon-1"></div>
+    <div class="ribbon ribbon-2"></div>
+    <div class="moon"></div>
+  </div>
+
   <!-- ══════════ NAVBAR ══════════ -->
   <header class="navbar" id="navbar">
     <div class="container nav-inner">
@@ -51,10 +58,6 @@
   <section class="hero" id="beranda">
     <div class="hero-glow hero-glow-1"></div>
     <div class="hero-glow hero-glow-2"></div>
-    <div class="aurora aurora-1"></div>
-    <div class="aurora aurora-2"></div>
-    <!-- Langit: bulan + bintang jatuh (diisi oleh JS) -->
-    <div class="sky" id="sky" aria-hidden="true"><div class="moon"></div></div>
     <div class="container hero-inner">
       <div class="hero-text">
         <p class="hero-greet reveal" data-i18n="hero_greet">Halo, Saya</p>
