@@ -137,22 +137,84 @@ body::after {
 .aurora-1 {
   width: 52vw; max-width: 46rem; height: 28rem; top: -12%; left: -8%;
   background: radial-gradient(ellipse at center, rgba(45, 212, 191, 0.17), transparent 70%);
-  filter: blur(52px); animation: auroraDrift1 22s ease-in-out infinite alternate;
+  filter: blur(52px); animation: auroraDrift1 34s cubic-bezier(0.45, 0, 0.25, 1) infinite alternate;
+  will-change: transform;
 }
 .aurora-2 {
   width: 48vw; max-width: 42rem; height: 26rem; bottom: -10%; right: -10%;
   background: radial-gradient(ellipse at center, rgba(129, 140, 248, 0.18), transparent 70%);
-  filter: blur(55px); animation: auroraDrift2 26s ease-in-out infinite alternate;
+  filter: blur(55px); animation: auroraDrift2 40s cubic-bezier(0.45, 0, 0.25, 1) infinite alternate;
+  will-change: transform;
 }
-@keyframes auroraDrift1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(7vw, 5vh) scale(1.12); } }
-@keyframes auroraDrift2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-7vw, -6vh) scale(1.1); } }
+@keyframes auroraDrift1 {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  33%  { transform: translate3d(4vw, 2vh, 0) scale(1.07); }
+  66%  { transform: translate3d(2.5vw, 5.5vh, 0) scale(1.1); }
+  100% { transform: translate3d(7vw, 5vh, 0) scale(1.13); }
+}
+@keyframes auroraDrift2 {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  33%  { transform: translate3d(-4.5vw, -3vh, 0) scale(1.06); }
+  66%  { transform: translate3d(-2.5vw, -6.5vh, 0) scale(1.09); }
+  100% { transform: translate3d(-7vw, -6vh, 0) scale(1.11); }
+}
 
-/* ───────── Langit: bulan & bintang ───────── */
-.sky { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+/* ───────── Pita aurora (cahaya borealis berkilau) ───────── */
+.ribbon {
+  position: absolute; left: -20%; right: -20%; height: 15rem; z-index: 0;
+  pointer-events: none; overflow: hidden;
+  mask-image: linear-gradient(to bottom, transparent, black 28%, black 66%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 28%, black 66%, transparent);
+}
+.ribbon::before {
+  content: ''; position: absolute; inset: 0;
+  background-size: 300% 100%;
+  filter: blur(20px);
+  animation: ribbonSweep var(--sweep, 16s) cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+.ribbon::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(100deg,
+    transparent 0px, transparent 34px,
+    rgba(255, 255, 255, 0.055) 52px, rgba(255, 255, 255, 0.02) 68px, transparent 96px);
+  background-size: 260px 100%;
+  filter: blur(6px);
+  animation: streakFlow 9s linear infinite;
+}
+.ribbon-1 { top: -16%; transform: rotate(-7deg); opacity: 0.7; --sweep: 17s; }
+.ribbon-2 { top: 16%; transform: rotate(-4deg); opacity: 0.45; --sweep: 23s; }
+.ribbon-1::before {
+  background-image: linear-gradient(100deg,
+    transparent 0%, rgba(16, 185, 129, 0.05) 12%, rgba(45, 212, 191, 0.32) 22%,
+    rgba(167, 243, 208, 0.5) 27%, rgba(45, 212, 191, 0.22) 33%,
+    rgba(99, 102, 241, 0.25) 45%, rgba(45, 212, 191, 0.32) 58%,
+    rgba(16, 185, 129, 0.15) 68%, rgba(45, 212, 191, 0.04) 78%, transparent 100%);
+}
+.ribbon-2::before {
+  background-image: linear-gradient(100deg,
+    transparent 0%, rgba(129, 140, 248, 0.06) 15%, rgba(129, 140, 248, 0.28) 26%,
+    rgba(196, 181, 253, 0.45) 31%, rgba(129, 140, 248, 0.2) 38%,
+    rgba(45, 212, 191, 0.25) 55%, rgba(129, 140, 248, 0.28) 70%,
+    rgba(129, 140, 248, 0.05) 82%, transparent 100%);
+}
+@keyframes ribbonSweep {
+  0%   { background-position: 0% 50%; opacity: 0.75; }
+  30%  { opacity: 1; }
+  55%  { opacity: 0.65; }
+  80%  { opacity: 0.95; }
+  100% { background-position: 135% 50%; opacity: 0.75; }
+}
+@keyframes streakFlow {
+  from { background-position: 0 0; }
+  to   { background-position: 260px 0; }
+}
+
+/* ───────── Langit penuh halaman (bintang, bulan, pita aurora) ───────── */
+.sky { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
 
 .moon {
-  position: absolute; top: 9%; left: 50%;
-  width: clamp(70px, 9.5vw, 120px); aspect-ratio: 1; border-radius: 50%;
+  position: absolute; top: 8.5rem; right: 4%;
+  width: clamp(58px, 7.5vw, 100px); aspect-ratio: 1; border-radius: 50%;
   background:
     radial-gradient(circle at 32% 34%, rgba(255, 255, 255, 0.95), transparent 42%),
     radial-gradient(circle at 62% 58%, rgba(160, 150, 120, 0.55) 0%, transparent 18%),
@@ -192,7 +254,7 @@ body::after {
 
 /* Bulan tetap tampil di HP — dikecilkan & pindah ke sudut kanan-atas */
 @media (max-width: 900px) {
-  .moon { left: auto; right: 5%; top: 7.5%; width: 60px; }
+  .moon { right: 4%; top: 6.8rem; width: 52px; }
 }
 
 .hero-inner {
@@ -424,7 +486,7 @@ body::after {
 .form-note { font-size: 0.8rem; min-height: 1.2em; color: var(--teal-light); }
 
 /* ───────── Footer ───────── */
-.footer { border-top: 1px solid var(--border); padding: 1.75rem 0; background: var(--bg); }
+.footer { border-top: 1px solid var(--border); padding: 1.75rem 0; background: rgba(10, 15, 30, 0.35); }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .footer-logo { font-size: 1.1rem; }
 .footer-text { font-size: 0.8rem; color: var(--text-dim); }
